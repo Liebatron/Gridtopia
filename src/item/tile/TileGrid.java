@@ -18,19 +18,33 @@ public class TileGrid {
   private Point screenSize;
   private Point screenIndexSize;
   
-  private static final int TileSize = 10;
+  private int tileSize = 10;
   
   public TileGrid(Point screenSize) {
     this.screenSize = screenSize;
     this.screenIndexSize = getTileIndex(screenSize);
-    tiles = new Tile[screenSize.x/TileSize][screenSize.y/TileSize];
-    generateTileValues(screenSize.x/TileSize, screenSize.y/TileSize);
+    tiles = new Tile[screenSize.x/tileSize][screenSize.y/tileSize];
+    generateTileValues(screenSize.x/tileSize, screenSize.y/tileSize);
   }
-  
   public TileGrid(int x, int y) {
     tiles = new Tile[x][y];
     this.screenSize = new Point(x,y);
     generateTileValues(x, y);
+  }
+  
+  public TileGrid(Point screenSize, int tileSize) {
+    this.screenSize = screenSize;
+    this.screenIndexSize = getTileIndex(screenSize);
+    tiles = new Tile[screenSize.x/this.tileSize][screenSize.y/this.tileSize];
+    generateTileValues(screenSize.x/this.tileSize, screenSize.y/this.tileSize);
+    this.tileSize=tileSize;
+  }
+  public TileGrid(int x, int y, int tileSize) {
+    this.screenSize = screenSize;
+    this.screenIndexSize = getTileIndex(screenSize);
+    tiles = new Tile[screenSize.x/this.tileSize][screenSize.y/this.tileSize];
+    generateTileValues(screenSize.x/this.tileSize, screenSize.y/this.tileSize);
+    this.tileSize=tileSize;
   }
   
   public void setPanelController(PanelController panelController) {
@@ -43,18 +57,21 @@ public class TileGrid {
   public Point getScreenSize() {
     return screenSize;
   }
+  public Point getIndexSize() {
+    return screenIndexSize;
+  }
   
   public List<Item> getTileContents() {
     return contents;
   }
-  public static int getTileSize() {
-    return TileSize;
+  public int getTileSize() {
+    return tileSize;
   }
   
   private void generateTileValues(int x, int y) {
     for(int i=0;i<x;i++) {
       for(int j=0;j<y;j++) {
-        Tile tile = new Tile(this, new Point(i*TileSize, j*TileSize), TileSize);
+        Tile tile = new Tile(this, new Point(i*tileSize, j*tileSize), tileSize);
         tiles[i][j]=tile;
       }
     }
@@ -140,7 +157,7 @@ public class TileGrid {
   }
   
   public Point getTileIndex(Point point) {
-    return new Point((point.x/TileSize), (point.y/TileSize));
+    return new Point((point.x/tileSize), (point.y/tileSize));
   }
   
   public List<Tile> getAdjacentTiles(Point point) {
@@ -149,10 +166,10 @@ public class TileGrid {
   
   public List<Tile> getAdjacentTilesAtIndex(Point index) {
     List<Tile> adjacentTiles = new ArrayList<Tile>();
-    if(index.x<(screenSize.x/TileSize)-1) {
+    if(index.x<(screenSize.x/tileSize)-1) {
       adjacentTiles.add(getTileAtIndex(index.x+1,index.y));
     }
-    if(index.y<(screenSize.y/TileSize)-1) {
+    if(index.y<(screenSize.y/tileSize)-1) {
       adjacentTiles.add(getTileAtIndex(index.x,index.y+1));
     }
     if(index.x>1) {

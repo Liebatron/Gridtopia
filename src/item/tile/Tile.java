@@ -10,9 +10,9 @@ public class Tile extends Item {
   private TileGrid container;
   private Image img;
   private Item content=null;
-  private float tileSize=0f;
+  private int tileSize=0;
   
-  public Tile(TileGrid container, Point topRightCorner, float tileSize) {
+  public Tile(TileGrid container, Point topRightCorner, int tileSize) {
     setContainer(container);
     setDrawLocation(topRightCorner);
     setLocation(new FloatPoint(topRightCorner));
@@ -48,7 +48,7 @@ public class Tile extends Item {
   
   public void draw(Graphics g) {
     setDrawLocation(getLocation().toPoint());
-    g.fillRect(getDrawLocation().x, getDrawLocation().y, 10, 10);
+    g.fillRect(getDrawLocation().x, getDrawLocation().y, tileSize, tileSize);
     g.drawImage(img, getDrawLocation().x, getDrawLocation().y, null);
     drawContent(g);
   }
