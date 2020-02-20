@@ -17,6 +17,7 @@ public class TileGrid {
   private Random random = new Random();
   private Point screenSize;
   private Point screenIndexSize;
+  private List<Tile> allTiles = new ArrayList<>();
   
   private int tileSize = 10;
   
@@ -47,6 +48,10 @@ public class TileGrid {
     this.tileSize=tileSize;
   }
   
+  public List<Tile> getAllTiles() {
+    return allTiles;
+  }
+  
   public void setPanelController(PanelController panelController) {
     this.panelController=panelController;
   }
@@ -73,6 +78,7 @@ public class TileGrid {
       for(int j=0;j<y;j++) {
         Tile tile = new Tile(this, new Point(i*tileSize, j*tileSize), tileSize);
         tiles[i][j]=tile;
+        getAllTiles().add(tile);
       }
     }
   }
